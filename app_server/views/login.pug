@@ -1,0 +1,12 @@
+extends layout
+
+block content
+    form(method="post" enctype="multipart/form-data")
+        label: p 用户名：
+            input(type="text" name="name")
+        br
+        label: p 密码：
+            input(type="password" name="password")    
+        br
+        input(type="submit" value="登录")
+

@@ -3,16 +3,34 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+var session = require('express-session');
+const config = require('config-lite')(__dirname);
+var MongoStore = require('connect-mongo')(session);
+var flash = require('connect-flash'); 
 
 var indexRouter = require('./app_server/routes/index');
 var usersRouter = require('./app_server/routes/users');
-
+//var settings = require('./app_server/models/settings');
 var app = express();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'app_server','views'));
 app.set('view engine', 'pug');
+app.use(flash());
 
+app.use(session({
+  secret: config.session.secret,
+  key: config.session.key,
+  resave: true,
+  saveUninitialized: false, 
+  cookie: {
+    maxAge: config.session.maxAge
+  },
+  store: new MongoStore({
+    url: config.mongodb,
+    ttl: 3*24*60*60 
+  })
+}));
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
