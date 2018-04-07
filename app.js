@@ -16,7 +16,6 @@ var app = express();
 // view engine setup
 app.set('views', path.join(__dirname, 'app_server','views'));
 app.set('view engine', 'pug');
-app.use(flash());
 
 app.use(session({
   secret: config.session.secret,
@@ -28,7 +27,7 @@ app.use(session({
   },
   store: new MongoStore({
     url: config.mongodb,
-    ttl: 3*24*60*60 
+    ttl: 3*24*60*60*1000
   })
 }));
 app.use(logger('dev'));
@@ -36,6 +35,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(flash());
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);

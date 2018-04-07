@@ -11,11 +11,24 @@ html
         span(class="navbar-toggler-icon")
       div#navbarNav(class="collapse navbar-collapse")
         ul(class="navbar-nav")
-          li(class="nav-item active"): a(class="nav-link" href="#") Home
+          li(class="nav-item active"): a(class="nav-link" href="/") Home
           li(class="nav-item"): a(class="nav-link" href="#") Skill
           li(class="nav-item"): a(class="nav-link" href="#") Blog
-    
+          li(class="nav-item"): a(class="nav-link" href="/login") login
+          li(class="nav-item"): a(class="nav-link" href="/logout") logout
+          li(class="nav-item"): a(class="nav-link" href="/post") post
+        ul(class="navbar-nav navbar-right")
+          if user
+            li(class="nav-item text-white"): span= user
+          else
+            li(class="nav-item text-white"): span 未登录
     div(class="container")
+      if success
+        div(class="alert alert-success" role="alert")
+          p= success
+      else if error
+        div(class="alert alert-warning" role="alert")
+          p= error 
       block content 
       block footer
     script(src='/javascripts/jquery-3.3.1.min.js')
