@@ -79,16 +79,40 @@ router.get('/post', checkLogin, function (req, res, next) {
 });
 router.post('/post', checkLogin, function (req, res, next) {
   var newPost = new postModel({
+    username:req.session.user,
     title: req.body.title,
     content: req.body.content
   });
-  console.log(newPost);
   newPost.save(function (err, data) {
     if (err) { return console.log(err) }
     req.flash('success', '已上传文章=。=');
     res.redirect('/');
   });
 
+});
+router.get('/blog', function (req, res, next) {
+  //公用接口
+  var post ={
+    username: req.session.user
+  };
+  var postprivate ={
+    username: "issazhu"
+  };
+  //过滤参数
+  var field={
+    _id:0,
+    title:1,
+    time:1
+  }
+  postModel.find(postprivate, field,{lean:true},function (err, docs) {
+    if (err) { return console.log(err) }
+    if(!docs){
+      req.flash('error', '没有文章哦！快发表吧');
+      res.redirect('/post');
+    }else{
+      res.render('blog',{postslist:docs});
+    }
+  })
 });
 router.get('/logout', checkLogin, function (req, res, next) {
   req.session.user = null;
