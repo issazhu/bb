@@ -128,7 +128,7 @@ router.get('/blog', function (req, res, next) {
     title:1,
     time:1,
     postid:1,
-    username:0
+    username:1
   }
   postModel.find(postprivate, field,{lean:true},function (err, docs) {
     if (err) { return console.log(err) }
