@@ -81,7 +81,8 @@ router.post('/post', checkLogin, function (req, res, next) {
   var newPost = new postModel({
     username:req.session.user,
     title: req.body.title,
-    content: req.body.content
+    content: req.body.content,
+    postid:Math.ceil(Math.random()*100000)
   });
   newPost.save(function (err, data) {
     if (err) { return console.log(err) }
@@ -89,6 +90,28 @@ router.post('/post', checkLogin, function (req, res, next) {
     res.redirect('/');
   });
 
+});
+router.get('/blog/:postid', function (req, res, next) {
+  var postContent ={
+    postid: req.params.postid
+  };
+  //过滤参数
+  var field={
+    _id:0,
+    title:1,
+    time:1,
+    content:1
+  }
+  postModel.find(postContent, field,{lean:true},function (err, docs) {
+    if (err) { return console.log(err) }
+    if(!docs){
+      req.flash('error', '没有文章哦！');
+      res.redirect('/blog');
+    }else{
+      console.log(docs);
+      res.render('acticle',{postContent:docs});
+    }
+  });
 });
 router.get('/blog', function (req, res, next) {
   //公用接口
@@ -102,7 +125,8 @@ router.get('/blog', function (req, res, next) {
   var field={
     _id:0,
     title:1,
-    time:1
+    time:1,
+    postid:1
   }
   postModel.find(postprivate, field,{lean:true},function (err, docs) {
     if (err) { return console.log(err) }
