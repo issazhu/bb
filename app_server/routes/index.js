@@ -100,7 +100,8 @@ router.get('/blog/:postid', function (req, res, next) {
     _id:0,
     title:1,
     time:1,
-    content:1
+    content:1,
+    username:1
   }
   postModel.find(postContent, field,{lean:true},function (err, docs) {
     if (err) { return console.log(err) }
@@ -126,7 +127,8 @@ router.get('/blog', function (req, res, next) {
     _id:0,
     title:1,
     time:1,
-    postid:1
+    postid:1,
+    username:0
   }
   postModel.find(postprivate, field,{lean:true},function (err, docs) {
     if (err) { return console.log(err) }

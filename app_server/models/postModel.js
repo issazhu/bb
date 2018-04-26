@@ -11,8 +11,7 @@ var postSchema = new mongoose.Schema({
     postid:{
         type: Number,
         unique: true,
-    },
-    author:String
+    }
 })
 
 module.exports = mongoose.model('post', postSchema);
