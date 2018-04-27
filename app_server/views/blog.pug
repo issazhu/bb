@@ -7,7 +7,7 @@ block content
       div(class="col-lg-10")
         each docs in postslist
             div(class="card")
-                - var url ="./blog/"+docs.postid;
+                - var url ="/posts/"+docs.postid;
                 a(href=url class="btn")        
                     div(class="card-body")
                         h5(class="card-title") #{docs.title}

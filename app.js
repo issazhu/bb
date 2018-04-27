@@ -9,7 +9,8 @@ var MongoStore = require('connect-mongo')(session);
 var flash = require('connect-flash'); 
 
 var indexRouter = require('./app_server/routes/index');
-var usersRouter = require('./app_server/routes/users');
+var blogsRouter = require('./app_server/routes/blogs');
+var postsRouter = require('./app_server/routes/posts');
 //var settings = require('./app_server/models/settings');
 var app = express();
 
@@ -38,7 +39,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(flash());
 
 app.use('/', indexRouter);
-app.use('/users', usersRouter);
+app.use('/blog', blogsRouter);
+app.use('/posts', postsRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
